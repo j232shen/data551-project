@@ -38,7 +38,8 @@ def load_data():
         .agg(lambda x: set(x))
         .reset_index(name="countries")
     )
-    return wfp, fao, fao_grouped, commodity_country_set
+    af = pd.read_csv('../data/processed/affordability_index.csv')
+    return wfp, fao, fao_grouped, commodity_country_set, af
 
 
 def get_globals(wfp):

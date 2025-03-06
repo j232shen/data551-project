@@ -9,9 +9,10 @@ from plots import (
     get_price_chart,
     get_undernourishment_chart,
 )
-
-
-def register_callbacks(app, wfp, fao_grouped, essential_commodities):
+import dash_bootstrap_components as dbc
+from dash import dcc, html
+import dash
+def register_callbacks(app, wfp, fao_grouped, essential_commodities, af):
     # callback to update undernourishment chart
     @app.callback(
         Output("price-chart", "figure"),
@@ -117,3 +118,36 @@ def register_callbacks(app, wfp, fao_grouped, essential_commodities):
                     region = region_candidate
 
         return get_bar_plot(wfp, country, year, region)
+    # Callback to update country-info based on selected country and year
+    @app.callback(
+        Output("country-info", "children"),
+        [Input("average-store", "data"), Input("country", "value"), Input("year", "value")]
+    )
+    def update_country_info(average_data, country, year):
+        if not average_data:
+            return html.P("No data available", className="text-center text-muted fs-4")
+        
+        index = next((item['affordability_index'] for item in average_data if item['country'] == country and item['year'] == year), None)
+
+        if index is None:
+            return html.P("No data available", className="text-center text-muted fs-4")
+        
+        return dbc.Card(
+        [
+            dbc.CardHeader("Affordability Index", className="text-center fw-bold"),
+            dbc.CardBody(
+                html.P(f"{index:.2f}", className="text-center fw-bold text-primary display-3"),
+                className="d-flex align-items-center justify-content-center",
+                style={"height": "150px"}
+            ),
+        ],
+        className="md-5 shadow-sm",  
+        style={
+            'margin-bottom': '20px',
+            'border': '0',  
+            'border-radius': '10px',
+            'height': '200px',
+            'width': '100%',
+            'box-shadow': '3px 3px 15px rgba(0, 0, 0, 0.2)' 
+        }
+    )

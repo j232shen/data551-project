@@ -7,7 +7,7 @@ from callback import register_callbacks
 
 
 # Load data
-wfp, fao, fao_grouped, commodity_country_set = load_data()
+wfp, fao, fao_grouped, commodity_country_set, af = load_data()
 all_countries, min_year, max_year = get_globals(wfp)
 
 default_country = all_countries[0]
@@ -216,7 +216,7 @@ app.layout = dbc.Container(
                                                                 "padding": "0",
                                                                 "overflow": "hidden",
                                                                 "backgroundColor": "white",
-                                                                "height": "600px",
+                                                                "height": "900px",
                                                                 "width": "100%",
                                                             },
                                                         ),
@@ -230,6 +230,21 @@ app.layout = dbc.Container(
                                                 [
                                                     html.Div(
                                                         [
+                                                        html.Div(
+                                                        [
+                                                            dcc.Store(id="average-store", data=af.to_dict("records")),
+                                                            html.Div(
+                                                                id="country-info",
+                                                                style={"margin-top": "20px", "width": "100%"}), 
+
+                                                        ],
+                                                            style={
+                                                                    "border": "0",
+                                                                    "width": "50%",
+                                                                    "height": "310px",
+                                                                    "overflow": "hidden",
+                                                                },
+                                                        ),
                                                             html.H5(
                                                                 "Price Distribution for Category of Commodity"
                                                             ),
@@ -289,7 +304,7 @@ app.layout = dbc.Container(
     fluid=True,
 )
 
-register_callbacks(app, wfp, fao_grouped, ESSENTIAL_COMMODITIES)
+register_callbacks(app, wfp, fao_grouped, ESSENTIAL_COMMODITIES, af)
 
 # run server
 if __name__ == "__main__":
