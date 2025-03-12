@@ -2,7 +2,7 @@ import dash
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 
-from data import load_data, get_globals, get_years, get_aff_years, ESSENTIAL_COMMODITIES
+from data import load_data, get_globals, get_years, get_aff_years, STAPLE_COMMODITIES
 from plots import get_hist
 from callback import register_callbacks
 from styles import tabs_style, stat_card_container_style, stat_card_row_style, graph_container_style, map_style, double_graph_style, affo_country_style, bar_box_style, tooltip_style
@@ -27,14 +27,18 @@ app = dash.Dash(
 app.layout = dbc.Container([
     # header
     html.Div([
-        html.H1("Global Food Security Dashboard")
-    ]),
+        html.H1("Global Food Security Dashboard"),
+        html.P("Gain insights into global food security by exploring key metrics and trends in developing countries, including local food prices, affordability, and undernourishment.")
+    ], style={"padding": "50px 50px 10px"}),
 
     # tabs
     dbc.Row([
         dbc.Tabs([
             # ================ GLOBAL TAB ================
             dbc.Tab(label="Global", tab_id="global", children=[
+                # description
+                # html.P("Explore how commodity prices change around the world, and how that relates to undernourishment and food affordability for different countries for macroscopic insights."),
+
                 # affordability row
                 dbc.Row([
                     # histogram
@@ -42,7 +46,7 @@ app.layout = dbc.Container([
                         dbc.Row([
                             dbc.Col([
                                 html.H4("Global Distribution of Affordability Ratios"),
-                                html.P("Affordability ratio is calculated as (Local Price / Mean National Wage)")
+                                html.P("Affordability ratio is the percentage of annual income budgeted for food divided by annual food expenses.")
                             ], width=9),
                             dbc.Col([
                                 dcc.Dropdown(
@@ -61,7 +65,7 @@ app.layout = dbc.Container([
                         html.Div([
                             dbc.Row(html.H5("Total Countries Included")),
                             dbc.Row([
-                                dbc.Col(html.H1(f"{len(all_countries)}"))
+                                dbc.Col(html.H1(id="total-countries"))
                             ], style=stat_card_row_style)
                         ], style=stat_card_container_style),
 
@@ -73,7 +77,7 @@ app.layout = dbc.Container([
                                     dbc.Tooltip(
                                         "Average food affordability in developing countries—higher values indicate better affordability.",
                                         target="avg-change-info",
-                                        placement="right"
+                                        placement="top"
                                     )
                                 ], style={"display": "flex", "align-items": "center"})
                             ]),
@@ -93,7 +97,9 @@ app.layout = dbc.Container([
                     ], width=4)
 
                 ], style={
+                    # "backgroundColor": "#FFF",
                     "border": "1px solid #ccc",
+                    "border-radius": "5px",
                     "padding": "1rem",
                     "margin": "1rem 0",
                 }),
@@ -114,7 +120,7 @@ app.layout = dbc.Container([
                         html.Label("Select Commodity:", className="fw-bold"),
                         dcc.Dropdown(
                             id="commodity-dropdown", value="All Commodities",
-                            options=[{"label": "All Commodities", "value": "All Commodities"}, {"label": "Essential Commodities", "value": "Essential Commodities"}]
+                            options=[{"label": "All Commodities", "value": "All Commodities"}, {"label": "Staple Commodities", "value": "Staple Commodities"}]
                         )
                     ], width=3),
 
@@ -132,32 +138,37 @@ app.layout = dbc.Container([
                 dbc.Row([
                     dbc.Col([
                         html.H4("Global Changes in Food Commodity Prices"),
-                        html.P(
-                            # "Essential Commodities include Sugar, Wheat flour, Eggs, "
-                            "Potatoes, Salt, Fuel, Tomatoes, Rice, Oil, and Onions",
-                            style={"color": "#777"}
-                        ),
+                        html.P([
+                            "Staple commodities are the most widely consumed food items",
+                            html.Br(),
+                            "across countries, such as sugar, flour, and eggs."
+                        ], style={"color": "#777"}),
                         dcc.Graph(id="price-chart", config={"responsive": True}, style=double_graph_style)
                     ], width="auto", style=graph_container_style),
 
                     dbc.Col([
                         html.H4("Percentage of Population that is Undernourished"),
-                        html.P(
+                        html.P([
                             "Data covers the last 10 years, with the most recent from 2021",
-                            style={"color": "#777"}
-                        ),
+                            html.Br(),
+                            "ㅤ"
+                        ], style={"color": "#777"}),
                         dcc.Graph(id="line-chart", config={"responsive": True}, style=double_graph_style)
                     ], width="auto", style=graph_container_style)
 
                 ], style={
                     "display": "flex",  # Apply Flexbox layout
-                    "justify-content": "space-evenly",  # Evenly space the columns
+                    "justify-content": "space-between",  # Evenly space the columns
                     "align-items": "flex-start",  # Align columns at the top
+                    "padding": "1rem",
                 })
             ]),
 
             # ================ COUNTRY TAB ================
             dbc.Tab(label="Country", tab_id="country", children=[
+                # description
+                # html.P("Explore variability of food prices across regions within a specific country for microscopic insights."),
+
                 # filters
                 dbc.Row([
                     dbc.Col([
@@ -220,9 +231,9 @@ app.layout = dbc.Container([
             ])
         ], id="tabs", active_tab="global", style=tabs_style)
     ], justify="start", style={"padding": "0px 50px"})
-], fluid=True)
+], fluid=True) # style={"backgroundColor": "#F6F8FA"}
 
-register_callbacks(app, wfp, aff_index, fao_grouped, ESSENTIAL_COMMODITIES)
+register_callbacks(app, wfp, aff_index, fao_grouped, STAPLE_COMMODITIES)
 
 # run server
 if __name__ == "__main__":

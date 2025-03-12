@@ -2,7 +2,7 @@ import pandas as pd
 
 
 # Define constants
-ESSENTIAL_COMMODITIES = [
+STAPLE_COMMODITIES = [
     "Sugar",
     "Wheat flour",
     "Eggs",
@@ -17,7 +17,6 @@ ESSENTIAL_COMMODITIES = [
 
 
 def load_data():
-
     # load data
     wfp = pd.read_parquet("../data/processed/wfp_preprocessed.parquet")
     fao = pd.read_csv("../data/raw/FAOSTAT_data_en_nutrition.csv")
