@@ -14,7 +14,7 @@ from plots import (
 )
 
 
-def register_callbacks(app, wfp, aff_index, fao_grouped, essential_commodities):
+def register_callbacks(app, wfp, aff_index, fao_grouped, staple_commodities):
     # callback to update undernourishment chart
     @app.callback(
         Output("price-chart", "figure"),
@@ -25,12 +25,15 @@ def register_callbacks(app, wfp, aff_index, fao_grouped, essential_commodities):
         ],
     )
     def update_price_chart(selected_countries, year_range, selected_commodity):
+        if not selected_countries:
+            raise PreventUpdate
+        
         return get_price_chart(
             wfp,
             selected_countries,
             year_range,
             selected_commodity,
-            essential_commodities,
+            staple_commodities,
         )
 
     # Callbacks to update dropdown and map graph dynamically
@@ -123,13 +126,21 @@ def register_callbacks(app, wfp, aff_index, fao_grouped, essential_commodities):
 
     # callback to update histogram
     @app.callback(
-        Output(
-            "aff-hist", "figure"
-        ),  # The figure output should be directly assigned to the `figure` attribute
+        Output("aff-hist", "figure"),
         [Input("year-dropdown", "value")],
     )
     def update_hist(selected_year):
         return get_hist(aff_index, selected_year)
+    
+    # callback to update total countries count
+    @app.callback(
+        Output("total-countries", "children"),
+        [Input("year-dropdown", "value")]
+    )
+    def update_total_countries(selected_year):
+        subset = aff_index[aff_index["year"] == selected_year]
+        total_countries = len(subset)
+        return total_countries
 
     # callback to update summary statistics
     @app.callback(

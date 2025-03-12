@@ -1,15 +1,14 @@
 tabs_style = {
-    "width": "250px",
+    "width": "100%",
     "line-height": "8px",
     "align-items": "center",
-    "margin-left": "0",
-    "margin-top": "30px",
-    "margin-bottom": "30px",
+    "margin-bottom": "30px"
 }
 
 stat_card_container_style = {
     "height": "150px",
     "border": "1px solid #ccc",
+    "border-radius": "5px",
     "padding": "1.5rem",
     "margin": "1rem 0",
 }
@@ -22,11 +21,17 @@ stat_card_row_style = {
 
 graph_container_style = {
     "border": "1px solid #ccc",
-    "padding": "1rem",
+    "border-radius": "5px",
+    "padding-left": "2rem",
+    "padding-top": "2rem",
     "margin": "1rem 0",
 }
 
-double_graph_style = {"height": "100%", "width": "100%"}
+double_graph_style = {
+    "height": "100%", 
+    "width": "100%", 
+    "margin-top": "-1rem"
+}
 
 map_style = {
     "border": "1px solid #ccc",
@@ -59,5 +64,7 @@ tooltip_style = {
     "text-align": "center",
     "width": "16px",  
     "height": "16px",
-    "line-height": "12px"                                     
+    "line-height": "12px",
+    "margin-top": "5px",
+    "margin-left": "5px"                                     
 }

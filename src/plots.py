@@ -38,21 +38,16 @@ def get_hist(aff_index, selected_year):
     return fig
 
 
-def get_price_chart(
-    wfp, selected_countries, year_range, selected_commodity, essential_commodities
-):
-    if not selected_countries:
-        return {}
-
+def get_price_chart(wfp, selected_countries, year_range, selected_commodity, staple_commodities):
     start_year, end_year = year_range
     filtered_data = wfp[
         wfp["country"].isin(selected_countries)
         & wfp["date"].dt.year.between(start_year, end_year)
     ]
 
-    if selected_commodity == "Essential Commodities":
+    if selected_commodity == "Staple Commodities":
         filtered_data = filtered_data[
-            filtered_data["commodity"].isin(essential_commodities)
+            filtered_data["commodity"].isin(staple_commodities)
         ]
 
     result = (
@@ -66,13 +61,13 @@ def get_price_chart(
         result,
         x="date",
         y="avg_usdprice",
-        color="country",  # title='Global Changes in Commodity Prices',
+        color="country",
         labels={
             "avg_usdprice": "Average Price (USD)",
             "date": "Year",
             "country": "Country",
         },
-        height=350,
+        height=400,
         width=600,
         color_discrete_sequence=px.colors.qualitative.Pastel,
     )
@@ -80,8 +75,7 @@ def get_price_chart(
     years = result["date"].dt.year.unique()
     max_year = result["date"].max().year
     fig.update_layout(
-        # plot_bgcolor="rgba(240, 248, 255, 0.9)",
-        template="simple_white",  # add
+        template="simple_white",
         xaxis=dict(
             title="Year",
             tickmode="array",
@@ -98,7 +92,6 @@ def get_price_chart(
             gridcolor="LightGray",
             gridwidth=1,
             griddash="dash",
-            # hovermode="closest",
         ),
         hovermode="x unified",
     )
@@ -122,8 +115,7 @@ def get_undernourishment_chart(fao_grouped, selected_countries, year_range):
         x="Year",
         y="Value",
         color="Area",
-        # title="Share of the population that is undernourished",
-        height=350,
+        height=400,
         width=600,
         color_discrete_sequence=px.colors.qualitative.Pastel,
         markers=True,  # add
