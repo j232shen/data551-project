@@ -1,9 +1,5 @@
-import altair as alt
 import plotly.express as px
 import plotly.graph_objects as go
-
-# set the alt option for the large dataset
-alt.data_transformers.disable_max_rows()
 
 # For the country tab
 COLOR_MAP = {
@@ -38,7 +34,9 @@ def get_hist(aff_index, selected_year):
     return fig
 
 
-def get_price_chart(wfp, selected_countries, year_range, selected_commodity, staple_commodities):
+def get_price_chart(
+    wfp, selected_countries, year_range, selected_commodity, staple_commodities
+):
     start_year, end_year = year_range
     filtered_data = wfp[
         wfp["country"].isin(selected_countries)

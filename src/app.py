@@ -3,9 +3,8 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 
 from data import load_data, get_globals, get_years, get_aff_years, STAPLE_COMMODITIES
-from plots import get_hist
 from callback import register_callbacks
-from styles import tabs_style, stat_card_container_style, stat_card_row_style, graph_container_style, map_style, double_graph_style, affo_country_style, bar_box_style, tooltip_style
+from styles import *
 
 
 # Load data
@@ -17,7 +16,6 @@ default_year = get_years(wfp, default_country)[0]
 
 aff_years = get_aff_years(aff_index) # list of years in descending order; doesn't match wfp years
 
-
 # ================================= APP =================================
 
 app = dash.Dash(
@@ -25,11 +23,36 @@ app = dash.Dash(
 )
 
 app.layout = dbc.Container([
-    # header
+    # Header section
     html.Div([
-        html.H1("Global Food Security Dashboard"),
-        html.P("Gain insights into global food security by exploring key metrics and trends in developing countries, including local food prices, affordability, and undernourishment.")
-    ], style={"padding": "50px 50px 10px"}),
+        # Top gradient bar
+        html.Div(className="top-accent-bar", style=top_accent_bar_style),
+        
+        # Main header content
+        html.Div([
+            # Logo and title
+            html.Div([
+                html.Div([
+                    html.I(className="fas fa-leaf", style=logo_icon_style)
+                ], style=header_logo_container_style),
+                html.Div([
+                    html.H1("Global Food Security", style=header_title_style),
+                    html.Span("DASHBOARD", style=header_subtitle_style)
+                ], style={
+                    "display": "flex",
+                    "flexDirection": "column"
+                })
+            ], style=header_logo_container_style),
+                        
+            # Right-aligned controls
+            html.Div([
+                html.Div([
+                    html.Span("Last updated: ", style=header_date_label_style),
+                    html.Span("March 11, 2025", style=header_date_value_style)
+                ], style=header_date_container_style),
+            ], style=header_controls_style)
+        ], style=header_content_style)
+    ], style=header_container_style),
 
     # tabs
     dbc.Row([
@@ -37,8 +60,9 @@ app.layout = dbc.Container([
             # ================ GLOBAL TAB ================
             dbc.Tab(label="Global", tab_id="global", children=[
                 # description
-                # html.P("Explore how commodity prices change around the world, and how that relates to undernourishment and food affordability for different countries for macroscopic insights."),
-
+               html.P("Explore how commodity prices change around the world, and how that relates to undernourishment and food affordability for different countries for macroscopic insights.", 
+                        style=tab_description_style, className="description-container"),
+                
                 # affordability row
                 dbc.Row([
                     # histogram
@@ -167,7 +191,10 @@ app.layout = dbc.Container([
             # ================ COUNTRY TAB ================
             dbc.Tab(label="Country", tab_id="country", children=[
                 # description
-                # html.P("Explore variability of food prices across regions within a specific country for microscopic insights."),
+                html.P(["Explore variability of food prices across regions within a specific country for microscopic insights.",
+                        html.Br(),
+                        html.Em("Click a region on the map below to filter the box plot and bar plot.")
+                        ], style=tab_description_style, className="description-container"),
 
                 # filters
                 dbc.Row([
@@ -187,13 +214,6 @@ app.layout = dbc.Container([
                         )
                     ], width=2)
                 ]),
-                 # Add a note for users
-                dbc.Row(
-                    html.Div(
-                        "Click a region on the map below to filter the box plot and bar plot.",
-                        style={"fontStyle": "italic", "marginBottom": "1rem"}
-                    )
-                ),
                 dbc.Row([
                     # ------------ MAP ------------
                     dbc.Col([
@@ -237,5 +257,5 @@ register_callbacks(app, wfp, aff_index, fao_grouped, STAPLE_COMMODITIES)
 
 # run server
 if __name__ == "__main__":
-    # app.run_server(debug=True, dev_tools_hot_reload=False)
+    # app.run_server(debug=False, dev_tools_hot_reload=False)
     app.run_server(debug=True)
