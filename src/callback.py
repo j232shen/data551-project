@@ -230,7 +230,7 @@ def register_callbacks(app, wfp, aff_index, fao_grouped, staple_commodities):
         previous_index = next((item['affordability_index'] for item in average_data if item['country'] == country and item['year'] == year - 1), None)
 
         if current_index is None:
-            return html.P("No data available", className="text-center text-muted fs-4")
+            return html.P("No data available before 2021", className="text-center text-muted fs-4")
 
         if previous_index is not None and previous_index != 0:
             yoy_growth = ((current_index - previous_index) / previous_index) * 100
