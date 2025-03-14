@@ -78,11 +78,13 @@ app.layout = dbc.Container([
                                     options=[{"label": year, "value": year} for year in aff_years]
                                 )
                             ], width=2)
-                        ]),
+                        ], style={"height": "15%"}),
+
                         dbc.Row(
-                            dcc.Graph(id="aff-hist")
+                            dcc.Graph(id="aff-hist", config={"responsive": True}, style={"height": "100%"}),
+                            style={"height": "80%"}
                         )
-                    ], width=8, style={"margin": "1rem 0 0"}),
+                    ], width=8, style={"margin": "1rem 0 0", "height": "100%"}),
 
                     # summary statistics
                     dbc.Col([
@@ -118,10 +120,18 @@ app.layout = dbc.Container([
                                 dbc.Col(html.H5(id="pct-change-text"))
                             ], style=stat_card_row_style)
                         ], style=stat_card_container_style)
-                    ], width=4)
+                        
+                    ], width=4, style={
+                        "height": "100%",
+                        "display": "flex",               
+                        "flex-direction": "column",     
+                        "gap": "2rem",
+                        "padding": "1rem"   
+                    })
 
                 ], style={
-                    # "backgroundColor": "#FFF",
+                    "height": "80vh",
+                    "align-items": "stretch",
                     "border": "1px solid #ccc",
                     "border-radius": "5px",
                     "padding": "1rem",
@@ -135,7 +145,6 @@ app.layout = dbc.Container([
                         dcc.Dropdown(
                             id="country-dropdown", multi=True, clearable=False,
                             options=[{"label": c, "value": c} for c in all_countries],
-                            # value=["Russia", "China", "Vietnam", "Thailand"]
                             value=["Afghanistan", "Armenia", "Bangladesh", "Guinea"]
                         )
                     ], width=3),
@@ -168,17 +177,18 @@ app.layout = dbc.Container([
                             "across countries, such as sugar, flour, and eggs."
                         ], style={"color": "#777"}),
                         dcc.Graph(id="price-chart", config={"responsive": True}, style=double_graph_style)
-                    ], style={**graph_container_style, "margin-right": "2rem"}),
+                    ], style=graph_container_style),
 
                     dbc.Col([
                         html.H4("Percentage of Population that is Undernourished"),
                         html.P("Data covers the last 10 years, with the most recent from 2021", style={"color": "#777"}),
                         dcc.Graph(id="line-chart", config={"responsive": True}, style=double_graph_style)
-                    ], style={**graph_container_style, "margin-left": "2rem"})
+                    ], style=graph_container_style)
 
                 ], style={ # row style
                     "height": "70vh",
                     "align-items": "stretch",
+                    "gap": "2.5rem",
                     "padding": "1rem 0",
                     "margin": "1rem 0"
                 })

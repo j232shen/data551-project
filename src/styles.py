@@ -6,11 +6,10 @@ tabs_style = {
 }
 
 stat_card_container_style = {
-    "height": "150px",
     "border": "1px solid #ccc",
     "border-radius": "5px",
-    "padding": "1.5rem",
-    "margin": "1rem 0",
+    "flex": "1",
+    "padding": "1.5rem"
 }
 
 stat_card_row_style = {
@@ -27,7 +26,7 @@ graph_container_style = {
     "padding-top": "2rem"
 }
 
-double_graph_style = {"height": "70%", "width": "100%", "margin-top": "-1rem"}
+double_graph_style = {"height": "75%", "width": "100%", "margin-top": "-1rem"}
 
 map_style = {
     "border": "1px solid #ccc",
