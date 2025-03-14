@@ -20,7 +20,6 @@ def get_hist(aff_index, selected_year):
         filtered_data,
         x="affordability_ratio",
         nbins=30,  # Adjust the number of bins as needed
-        # title="Distribution of Affordability Ratios (Latest Year)",
         labels={"affordability_ratio": "Affordability Ratio"},
         template="plotly_white",
     )
@@ -65,8 +64,6 @@ def get_price_chart(
             "date": "Year",
             "country": "Country",
         },
-        height=400,
-        width=600,
         color_discrete_sequence=px.colors.qualitative.Pastel,
     )
 
@@ -113,8 +110,6 @@ def get_undernourishment_chart(fao_grouped, selected_countries, year_range):
         x="Year",
         y="Value",
         color="Area",
-        height=400,
-        width=600,
         color_discrete_sequence=px.colors.qualitative.Pastel,
         markers=True,  # add
     )
@@ -126,8 +121,7 @@ def get_undernourishment_chart(fao_grouped, selected_countries, year_range):
             title="Year",
             tickmode="array",
             tickvals=years,
-            ticktext=[str(year) for year in years],
-            # range=[start_year, end_year]
+            ticktext=[str(year) for year in years]
         ),
         yaxis=dict(
             title="Undernourishment (%)",
