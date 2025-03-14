@@ -168,23 +168,19 @@ app.layout = dbc.Container([
                             "across countries, such as sugar, flour, and eggs."
                         ], style={"color": "#777"}),
                         dcc.Graph(id="price-chart", config={"responsive": True}, style=double_graph_style)
-                    ], width="auto", style=graph_container_style),
+                    ], style={**graph_container_style, "margin-right": "2rem"}),
 
                     dbc.Col([
                         html.H4("Percentage of Population that is Undernourished"),
-                        html.P([
-                            "Data covers the last 10 years, with the most recent from 2021",
-                            html.Br(),
-                            "ㅤ"
-                        ], style={"color": "#777"}),
+                        html.P("Data covers the last 10 years, with the most recent from 2021", style={"color": "#777"}),
                         dcc.Graph(id="line-chart", config={"responsive": True}, style=double_graph_style)
-                    ], width="auto", style=graph_container_style)
+                    ], style={**graph_container_style, "margin-left": "2rem"})
 
-                ], style={
-                    "display": "flex",  # Apply Flexbox layout
-                    "justify-content": "space-between",  # Evenly space the columns
-                    "align-items": "flex-start",  # Align columns at the top
-                    "padding": "1rem",
+                ], style={ # row style
+                    "height": "70vh",
+                    "align-items": "stretch",
+                    "padding": "1rem 0",
+                    "margin": "1rem 0"
                 })
             ]),
 
