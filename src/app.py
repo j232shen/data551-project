@@ -19,7 +19,7 @@ aff_years = get_aff_years(aff_index) # list of years in descending order; doesn'
 # ================================= APP =================================
 
 app = dash.Dash(
-    __name__, external_stylesheets=[dbc.themes.ZEPHYR, dbc.icons.FONT_AWESOME]
+    __name__, title='Global Food Security', external_stylesheets=[dbc.themes.ZEPHYR, dbc.icons.FONT_AWESOME]
 )
 
 app.layout = dbc.Container([
@@ -48,7 +48,7 @@ app.layout = dbc.Container([
             html.Div([
                 html.Div([
                     html.Span("Last updated: ", style=header_date_label_style),
-                    html.Span("March 11, 2025", style=header_date_value_style)
+                    html.Span("March 16, 2025", style=header_date_value_style)
                 ], style=header_date_container_style),
             ], style=header_controls_style)
         ], style=header_content_style)
@@ -237,21 +237,27 @@ app.layout = dbc.Container([
 
                     # ------------ Boxplot & Barplot ------------
                     dbc.Col([
+                        # html.Div([
+                        #     dcc.Store(id="average-store", data=aff_index.to_dict("records")),
+                        #     html.Div(id="country-info",style={"margin-top": "20px", "width": "100%"}) 
+                        # ], style=affo_country_style),
                         html.Div([
                             dcc.Store(id="average-store", data=aff_index.to_dict("records")),
-                            html.Div(id="country-info",style={"margin-top": "20px", "width": "100%"}) 
-                        ], style=affo_country_style),
-                        
+                            html.Div(
+                                id="country-info", 
+                                className="mt-4 w-100 fade-in"
+                            ) 
+                        ], className="dashboard-panel"),
                         html.Div([
                             html.H5("Price Distribution for Category of Commodity"),
-                            dcc.Graph(id="boxplot-frame", style=bar_box_style)
-                        ]),
+                            dcc.Graph(id="boxplot-frame", config={"responsive": True}, style=bar_box_style)
+                        ], style=graph_container_style),
                         html.Br(),
 
                         html.Div([
                             html.H5("Top 20 Commodities by Average Price"),
-                            dcc.Graph(id="bar-frame", style=bar_box_style)
-                        ])
+                            dcc.Graph(id="bar-frame", config={"responsive": True}, style=bar_box_style)
+                        ], style=graph_container_style)
                     ], width=6)
                 ])
             ])

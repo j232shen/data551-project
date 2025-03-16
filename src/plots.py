@@ -121,7 +121,7 @@ def get_undernourishment_chart(fao_grouped, selected_countries, year_range):
             title="Year",
             tickmode="array",
             tickvals=years,
-            ticktext=[str(year) for year in years]
+            ticktext=[str(year) for year in years],
         ),
         yaxis=dict(
             title="Undernourishment (%)",
@@ -248,8 +248,8 @@ def get_box_plot(df, country, year, region=None):
 
     fig.update_layout(
         template="simple_white",
-        width=800,
-        height=300,
+        # width=800,
+        # height=300,
         margin=dict(l=40, r=40, t=40, b=40),
         showlegend=False,
         yaxis=dict(
@@ -259,6 +259,7 @@ def get_box_plot(df, country, year, region=None):
             gridwidth=1,
             griddash="dash",
         ),
+        autosize=True,
     )
     # rotate x-axis labels
     # fig.update_xaxes(tickangle=20)
@@ -302,8 +303,8 @@ def get_bar_plot(df, country, year, region=None):
 
     fig.update_layout(
         template="simple_white",
-        width=800,
-        height=300,
+        # width=800,
+        # height=300,
         yaxis=dict(
             title="Average Price (USD)",
             showgrid=True,
@@ -312,5 +313,6 @@ def get_bar_plot(df, country, year, region=None):
             griddash="dash",
         ),
         margin=dict(l=10, r=10, t=50, b=50),
+        autosize=True,
     )
     return fig

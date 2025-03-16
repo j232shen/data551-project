@@ -221,38 +221,46 @@ def register_callbacks(app, wfp, aff_index, fao_grouped, staple_commodities):
         Output("country-info", "children"),
         [Input("average-store", "data"), Input("country", "value"), Input("year", "value")]
     )
-    def update_country_info(average_data, country, year):
-        if not average_data:
-            return html.P("No data available", className="text-center text-muted fs-4")
+    def update_country_info(average_data, country, year):            
+        header = html.H5(f"Affordability Index for {country}", className="text-center fw-bold")
         
-        current_index = next((item['affordability_index'] for item in average_data if item['country'] == country and item['year'] == year), None)
-
-        previous_index = next((item['affordability_index'] for item in average_data if item['country'] == country and item['year'] == year - 1), None)
-
-        if current_index is None:
-            return html.P("No data available before 2021", className="text-center text-muted fs-4")
-
-        if previous_index is not None and previous_index != 0:
-            yoy_growth = ((current_index - previous_index) / previous_index) * 100
-            yoy_text = f"YoY Growth: {yoy_growth:.2f}%"
-            yoy_color = "text-success" if yoy_growth > 0 else "text-danger" if yoy_growth < 0 else "text-muted"
+        if not average_data:
+            body_content = [
+                html.P("No data available", className="text-center text-muted fs-4")
+            ]
         else:
-            yoy_text = "YoY Growth: N/A"
-            yoy_color = "text-muted"
-
-        return dbc.Card(
+            current_index = next((item['affordability_index'] for item in average_data if item['country'] == country and item['year'] == year), None)
+            previous_index = next((item['affordability_index'] for item in average_data if item['country'] == country and item['year'] == year - 1), None)
+            
+            if current_index is None:
+                body_content = [
+                    html.P("No data available before 2021", className="text-center text-muted fs-4")
+                ]
+            else:
+                if previous_index is not None and previous_index != 0:
+                    yoy_growth = ((current_index - previous_index) / previous_index) * 100
+                    yoy_text = f"YoY Growth: {yoy_growth:.2f}%"
+                    yoy_color = "text-success" if yoy_growth > 0 else "text-danger" if yoy_growth < 0 else "text-muted"
+                else:
+                    yoy_text = "YoY Growth: N/A"
+                    yoy_color = "text-muted"
+                    
+                body_content = [
+                    html.P(f"{current_index:.2f}", className="text-center fw-bold text-primary display-3"),
+                    html.P(yoy_text, className=f"text-center fw-bold {yoy_color} fs-5")
+                ]
+        
+        return html.Div(
             [
-                dbc.CardHeader(
-                            html.H5(f"Affordability Index for {country}", className="text-center fw-bold")
-                        ),
-                dbc.CardBody(
-                    [
-                        html.P(f"{current_index:.2f}", className="text-center fw-bold text-primary display-3"),
-                        html.P(yoy_text, className=f"text-center fw-bold {yoy_color} fs-5"),
-                    ],
+                html.Div(
+                    header,
+                    className="p-3 border-bottom"
+                ),
+                html.Div(
+                    body_content,
                     className="d-flex flex-column align-items-center justify-content-center",
                     style={"height": "150px"}
-                ),
+                )
             ],
             className="md-5 shadow-sm",
             style={
@@ -261,6 +269,6 @@ def register_callbacks(app, wfp, aff_index, fao_grouped, staple_commodities):
                 'border-radius': '10px',
                 'height': '200px',
                 'width': '100%',
-                'box-shadow': '3px 3px 15px rgba(0, 0, 0, 0.2)'
+                # 'box-shadow': '3px 3px 15px rgba(0, 0, 0, 0.0)'
             }
         )
