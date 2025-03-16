@@ -237,10 +237,6 @@ app.layout = dbc.Container([
 
                     # ------------ Boxplot & Barplot ------------
                     dbc.Col([
-                        # html.Div([
-                        #     dcc.Store(id="average-store", data=aff_index.to_dict("records")),
-                        #     html.Div(id="country-info",style={"margin-top": "20px", "width": "100%"}) 
-                        # ], style=affo_country_style),
                         html.Div([
                             dcc.Store(id="average-store", data=aff_index.to_dict("records")),
                             html.Div(
@@ -269,5 +265,5 @@ register_callbacks(app, wfp, aff_index, fao_grouped, STAPLE_COMMODITIES)
 
 # run server
 if __name__ == "__main__":
-    # app.run_server(debug=False, dev_tools_hot_reload=False)
-    app.run_server(debug=True)
+    app.run_server(debug=False, dev_tools_hot_reload=False)
+    # app.run_server(debug=True)
