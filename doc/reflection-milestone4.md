@@ -19,14 +19,6 @@ Graphs and containers now adjust relative to the viewport and their parent eleme
 - **Default Data Displays:**
 To maintain visual clarity, plots on the global tab now default to showing data from the last selected country and year when all selections are cleared, preventing empty plots. On the country tab, the Affordability Index card displays "No data available before 2021" instead of appearing empty, as selections from 2021 to 2024 still influence the map and other plots within the tab.
 
-### Feedback and Improvements
-Feedback from peers and TAs played an important role in our development process. Here are some key points we addressed:
-
-- Positive Feedback:
-Users liked the overall clean design and found the interactive features (like the cursor for comparisons) very helpful. They felt that the dashboard was easy to navigate and the graphs were informative.
-
-- 
-
 
 ### What Is Still Under Development
 
