@@ -72,6 +72,7 @@ The dashboard helps answer key questions such as:
 - How much do prices vary within food categories and across locations?
 - Which commodities exhibit the most unstable pricing trends?
 
+
 ## Dashboard Output
 ![Global Dashboard](./global.png "App - Global")
 ![Country Dashboard](./country.png "App - Country")
