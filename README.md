@@ -74,8 +74,8 @@ The dashboard helps answer key questions such as:
 
 
 ## Dashboard Output
-![Global Dashboard](./global.png "App - Global")
-![Country Dashboard](./country.png "App - Country")
+![Global Dashboard](./global_.png "App - Global")
+![Country Dashboard](./country_.png "App - Country")
 
 ## Contribution
 Feel free to fork this repository and submit pull requests for improvements.
